@@ -65,6 +65,11 @@
   </build>
 
   <repositories>
+    <!-- Spigot Maven -->
+    <repository>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
     <!-- Dubcat Repository -->
     <repository>
       <id>dubcat-repo</id>
