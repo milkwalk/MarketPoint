@@ -1,0 +1,12 @@
+name: ${project.name}
+version: ${project.version}
+author: milkwalk
+main: cz.dubcat.marketpoint.MarketPoint
+api-version: 1.14
+
+commands:
+    marketpoint:
+        aliases: [mp, mpoint]
+        description: Market point main command.
+depend: [Vault]
+softdepend: [Citizens]

@@ -1,0 +1,18 @@
+lang:
+  prefix: '&f[&aMarketPoint&f] '
+  menu:
+    open: '&c/mp open <market> &f- Opens up market'
+    create: '&c/mp create <market_id> &f- Creates a new market'
+    delete: '&c/mp delete <market_id> &f- Deletes market'
+    list: '&c/mp list &f- Lists all available markets'
+  commandDoesNotExist: '&cCommand does not exist.'
+  marketDoesNotExist: '&cMarket &f%market_id% &cdoes not exist.'
+  itemAppearsToHaveNoPrice: Oops! Item appears to have no set price.
+  shiftClickTip: Use &ashift-click &fto &ainsta-buy &fan item.
+  market:
+    nextPage: '&bNext Page ->'
+    previousPage: '&b<- Previous Page'
+    backToMarket: '&9Back to market'
+    currencyInfo: '&aPrice of the item:'
+  currencyInfo: 'Currency: %amount% %currency_name%'
+  customCurrencyInfo: '&5%currency_name%: &a%amount%'
