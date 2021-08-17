@@ -1,8 +1,11 @@
 # Market point
+[![](https://jitpack.io/v/milkwalk/MarketPoint.svg)](https://jitpack.io/#milkwalk/MarketPoint)
+
+Showcase available at https://imgur.com/a/WfxDKer
+
+More information is available on [plugin's spigot page](https://www.spigotmc.org/resources/marketpoint.94995/)
 
 ## Minecraft versions
-
-[![](https://jitpack.io/v/milkwalk/MarketPoint.svg)](https://jitpack.io/#milkwalk/MarketPoint)
 
 MarketPoint is compatible with the following minecraft versions
 
