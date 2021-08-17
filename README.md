@@ -2,6 +2,8 @@
 
 ## Minecraft versions
 
+[![](https://jitpack.io/v/milkwalk/MarketPoint.svg)](https://jitpack.io/#milkwalk/MarketPoint)
+
 MarketPoint is compatible with the following minecraft versions
 
 - 1.16.x - 1.17.x 
