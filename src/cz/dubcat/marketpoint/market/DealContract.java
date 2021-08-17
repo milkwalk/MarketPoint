@@ -13,7 +13,8 @@ import lombok.Data;
 
 @Data
 public class DealContract {
-    //add different checks options
+    // TODO:
+    // add different check options, like durability check etc.
     private List<ItemStack> items = new ArrayList<>();
     private double currencyCost = 0;
     private Map<String, MarketCurrency> customCurrencies = new HashMap<>();
