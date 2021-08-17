@@ -1,4 +1,4 @@
-# Market point
+# Market Point
 [![](https://jitpack.io/v/milkwalk/MarketPoint.svg)](https://jitpack.io/#milkwalk/MarketPoint)
 
 Showcase available at https://imgur.com/a/WfxDKer
