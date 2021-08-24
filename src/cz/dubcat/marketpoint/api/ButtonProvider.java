@@ -27,6 +27,7 @@ public class ButtonProvider {
     public static ItemStack CITIZENTS_BUTTON;
     public static ItemStack CURRENCY_EDIT_BUTTON;
     public static ItemStack CUSTOM_CURRENCY_EDIT_BUTTON;
+    public static ItemStack PERMISSIONS_BUTTON;
 
     public static void initializeButtons() {
         CURRENCY_INFO = new ItemBuilder(getItemStackForMaterial("EMERALD"))
@@ -55,11 +56,13 @@ public class ButtonProvider {
                 .lore("&fSets current view name").colorizeLore().make();
         CUSTOM_CURRENCY_EDIT_BUTTON = new ItemBuilder(XMaterial.DIAMOND.parseItem()).name("&7Edit custom currencies")
                 .lore("&fCurrently none are set").colorizeLore().make();
+        PERMISSIONS_BUTTON = new ItemBuilder(getItemStackForMaterial("REDSTONE_TORCH")).name("&7Edit permission").lore("&fRequired permission to open the market")
+                .lore("&fTo remove permission right click the icon.").lore("").lore("&6Current value: &a%value%").colorizeLore().make();
     }
 
     public static void loadCitizetndsButtons() {
         CITIZENTS_BUTTON = new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).name("&7Assign NPC")
-                .lore("&fAssigns NPC to the market").lore("").lore("&6Current value: &a%value%").colorizeLore().make();
+                .lore("&fAssigns NPC to the market").lore("&7To remove NPC write &adel:npcId").lore("").lore("&6Current value: &a%value%").colorizeLore().make();
     }
 
     private static ItemStack getItemStackForMaterial(String materialName) {

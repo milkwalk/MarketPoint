@@ -88,7 +88,7 @@ public class ChatListener implements Listener {
                 }
                 e.setCancelled(true);
             } else if(action == ChatAction.CUSTOM_CURRENCY_CHOOSE_TYPE) {
-                e.setCancelled(true);
+               e.setCancelled(true);
                String currencyType = e.getMessage();
                if(MarketPointAPI.getCurrencyHandlers().containsKey(currencyType)) {
                    e.getPlayer().setMetadata("customType", new FixedMetadataValue(MarketPoint.getPlugin(), currencyType));
@@ -116,6 +116,16 @@ public class ChatListener implements Listener {
                     MarketPointAPI.inst().sendMessage(e.getPlayer(), e.getMessage() + " is not a number.");
                 }
                 e.setCancelled(true);
+            } else if(action == ChatAction.PERMISSION_CHANGE) {
+                Market market = MarketPointAPI.LOADED_MARKETS.get(data.getMarketId());
+                String permission = e.getMessage();
+                market.setPermissionToOpen(permission);
+                MarketPointAPI.inst().sendMessage(e.getPlayer(),"You've succuessfuly set &7"+ e.getMessage() + " &fto be a required permission to open market " + market.getMarketId());
+                e.setCancelled(true);
+                Inventory marketEditorMain = MarketPointAPI.inst().getMarketGui(MarketPointAPI.LOADED_MARKETS.get(data.getMarketId()), data.getPage(), e.getPlayer(), true);
+                Bukkit.getScheduler().runTask(MarketPoint.getPlugin(), () -> {
+                    e.getPlayer().openInventory(marketEditorMain);
+                });
             }
             
             CHAT_MAP.remove(e.getPlayer().getUniqueId());

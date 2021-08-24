@@ -15,12 +15,13 @@ import lombok.Data;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = {"citizentsIds", "marketGuiName"})
+@ToString(exclude = {"citizentsIds", "marketGuiName", "permissionToOpen"})
 public class Market {
     private String marketId;
     private List<MarketPage> marketPages = new ArrayList<>();
     private String marketGuiName = "Market";
     private Set<Integer> citizentsIds = new HashSet<>();
+    private String permissionToOpen = null;
     
     public Market(String marketId) {
         this.marketId = marketId;
@@ -48,6 +49,10 @@ public class Market {
             this.marketGuiName = cfg.getString("guiDisplayName");
         }
         
+        if(cfg.contains("permissionToOpen")) {
+            this.permissionToOpen = cfg.getString("permissionToOpen");
+        }
+        
         if(cfg.contains("citizentsIds")) {
             this.citizentsIds = new HashSet<>((List<Integer>) cfg.getList("citizentsIds"));
             this.citizentsIds.forEach(npcId -> { 
@@ -64,6 +69,8 @@ public class Market {
         
         FileConfiguration cfg = MarketPoint.getMarketDataManager().getMarketConfig(marketId);
         cfg.set("guiDisplayName", this.marketGuiName);
+        cfg.set("permissionToOpen", this.permissionToOpen);
+
         this.marketPages.forEach(page -> {
             if(page.getViewName() != null) {
                 cfg.set("pages." + page.getPageId() + ".settings.viewName", page.getViewName());

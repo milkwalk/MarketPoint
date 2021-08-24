@@ -91,6 +91,9 @@ public class MarketPoint extends JavaPlugin{
     @Override
     public void onDisable() {
         fh.close();
+        MarketPointAPI.LOADED_MARKETS.forEach((id, market) -> {
+            market.saveMarket();
+        });
         log.info("Disabled.");
     }
     

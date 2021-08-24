@@ -64,6 +64,16 @@ public class MarketPointAPI {
     }
     
     public void openMarket(String marketId, Player player) {
+        Market market = LOADED_MARKETS.get(marketId);
+        
+        if(market.getPermissionToOpen() != null && !player.hasPermission(market.getPermissionToOpen())) {
+            String translation = Translations.translateWithPrefix("lang.noPermissionToOpen");
+            translation = translation.replaceAll("%permission%", market.getPermissionToOpen());
+            this.sendMessage(player, translation);
+
+            return;
+        }
+        
         int page = 0;
         PlayerData data = PLAYER_MARKET_DATA.computeIfAbsent(player.getUniqueId(), key -> new PlayerData(marketId));
         if(data.getMarketId() != marketId) {
@@ -72,7 +82,7 @@ public class MarketPointAPI {
             page = data.getPage();
         }
 
-        Inventory maraketGui = getMarketGui(LOADED_MARKETS.get(marketId), page, player, false);
+        Inventory maraketGui = getMarketGui(market, page, player, false);
         player.openInventory(maraketGui);
     }
     
@@ -143,6 +153,28 @@ public class MarketPointAPI {
                         } else {
                             inventory.setItem(i, ButtonProvider.ENTER_EDITOR_MODE_BUTTON);
                         }
+                    } else {
+                        inventory.setItem(i, ButtonProvider.MAIN_THEME_FILLER);
+                    }
+                    break;
+                case 47:
+                    if(editorMode) {
+                        ItemStack permissionsButton = ButtonProvider.PERMISSIONS_BUTTON.clone();
+                        ItemMeta meta = permissionsButton.getItemMeta();
+                        List<String> lores = meta.getLore();
+                        for (int j = 0; j < lores.size(); j++) {
+                            String line = lores.get(j);
+                            if(line.contains("%value%")) {
+                                if(market.getPermissionToOpen() == null) {
+                                    lores.set(j, line.replaceAll("%value%", "No permission is set"));
+                                } else {
+                                    lores.set(j, line.replaceAll("%value%", market.getPermissionToOpen()));
+                                }
+                            }
+                        }
+                        meta.setLore(lores);
+                        permissionsButton.setItemMeta(meta);
+                        inventory.setItem(i, permissionsButton);
                     } else {
                         inventory.setItem(i, ButtonProvider.MAIN_THEME_FILLER);
                     }

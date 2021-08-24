@@ -18,6 +18,10 @@ import cz.dubcat.marketpoint.market.data.PlayerData;
 
 public class MarketClickListener implements Listener {
     
+    private static final int EDITOR_MODE_ID = 49;
+    private static final int NEXT_PAGE_ID = 52;
+    private static final int PREVIOUS_PAGE_ID = 46;
+    
     @EventHandler(ignoreCancelled = true)
     public void onMarketClickEvent(InventoryClickEvent e) {
         if(e.getWhoClicked() instanceof Player) {
@@ -39,15 +43,15 @@ public class MarketClickListener implements Listener {
                                 player.openInventory(dealInventory);
                                 playerData.setCurrentDealId(e.getRawSlot());
                             }
-                        } else if(slot == 49 && player.hasPermission("marketpoint.admin")) {
+                        } else if(slot == EDITOR_MODE_ID && player.hasPermission("marketpoint.admin")) {
                             playerData.setEditor(true);
                             Inventory dealInventory = MarketPointAPI.inst().getMarketGui(market, playerData.getPage(), player, true);
                             player.openInventory(dealInventory);
-                        } else if(slot == 52 && e.getCurrentItem() != null && e.getCurrentItem().equals(ButtonProvider.NEXT_PAGE_BUTTON)) {
+                        } else if(slot == NEXT_PAGE_ID && e.getCurrentItem() != null && e.getCurrentItem().equals(ButtonProvider.NEXT_PAGE_BUTTON)) {
                             playerData.setPage(playerData.getPage() + 1);
                             Inventory dealInventory = MarketPointAPI.inst().getMarketGui(market, playerData.getPage(), player, false);
                             player.openInventory(dealInventory);
-                        } else if (slot == 46 && e.getCurrentItem() != null && e.getCurrentItem().equals(ButtonProvider.PREVIOUS_PAGE_BUTTON)) {
+                        } else if (slot == PREVIOUS_PAGE_ID && e.getCurrentItem() != null && e.getCurrentItem().equals(ButtonProvider.PREVIOUS_PAGE_BUTTON)) {
                             playerData.setPage(playerData.getPage() - 1);
                             Inventory dealInventory = MarketPointAPI.inst().getMarketGui(market, playerData.getPage(), player, false);
                             player.openInventory(dealInventory);

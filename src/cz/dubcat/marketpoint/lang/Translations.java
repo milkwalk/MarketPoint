@@ -91,6 +91,7 @@ public class Translations {
         setLine("lang.market.currencyInfo", "&aPrice of the item:", englishFileConfiguration);
         setLine("lang.currencyInfo", "Currency: %amount% %currency_name%", englishFileConfiguration);
         setLine("lang.customCurrencyInfo", "&5%currency_name%: &a%amount%", englishFileConfiguration);
+        setLine("lang.noPermissionToOpen", "You can't open this market, because you dont have permission &a%permission%.", englishFileConfiguration);
         
         try {
             englishFileConfiguration.save(englishFile);

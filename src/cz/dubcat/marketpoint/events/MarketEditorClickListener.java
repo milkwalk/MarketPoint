@@ -1,5 +1,6 @@
 package cz.dubcat.marketpoint.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +21,12 @@ import cz.dubcat.marketpoint.market.data.PlayerData;
 
 public class MarketEditorClickListener implements Listener {
     
-    private int MARKET_DEAL_EDIT = 45;
+    private static final int MARKET_DEAL_EDIT = 45;
+    private static final int NEXT_PAGE_ID = 52;
+    private static final int PREVIOUS_PAGE_ID = 46;
+    private static final int RENAME_ID = 48;
+    private static final int PERMISISONS_ID = 47;
+    private static final int CITIZENTS_ID = 50;
     
     @EventHandler(ignoreCancelled = true)
     public void onMarketClickEvent(InventoryClickEvent e) {
@@ -88,7 +94,7 @@ public class MarketEditorClickListener implements Listener {
                         data.setEditor(false);
                         Inventory marketInvenotry = MarketPointAPI.inst().getMarketGui(market, data.getPage(), player, false);
                         player.openInventory(marketInvenotry);
-                    } else if(slot == 52) {
+                    } else if(slot == NEXT_PAGE_ID) {
                         if(page + 1 > MarketPointAPI.MAX_PAGES_PER_MARKET) {
                             MarketPointAPI.inst().sendMessage(player, "&4You have reached maximum pages allowed per market (" + (MarketPointAPI.MAX_PAGES_PER_MARKET + 1) +") HOW LOL?");
                         } else {
@@ -101,7 +107,7 @@ public class MarketEditorClickListener implements Listener {
                             }
                         }
                         e.setCancelled(true);
-                    } else if (slot == 46) {
+                    } else if (slot == PREVIOUS_PAGE_ID) {
                         Inventory previousPageMarketInventory = MarketPointAPI.inst().getMarketGui(market, page - 1, player, true);
                         data.setPage(page - 1);
                         if(data.getPage() < 0) {
@@ -109,16 +115,31 @@ public class MarketEditorClickListener implements Listener {
                         }
                         player.openInventory(previousPageMarketInventory);
                         e.setCancelled(true);
-                    } else if (slot == 48) {
+                    } else if (slot == RENAME_ID) {
                         e.setCancelled(true);
                         ChatListener.CHAT_MAP.put(player.getUniqueId(), ChatAction.PAGE_RENAME);
                         player.closeInventory();
-                        MarketPointAPI.inst().sendMessage(player, "&aPlease provide a name for view:");
-                    } else if(slot == 50 && MarketPoint.isCitizentsLoaded()) {
+                        MarketPointAPI.inst().sendMessage(player, "&aPlease provide a name for the view:");
+                    } else if(slot == PERMISISONS_ID) {
+                        if(action == InventoryAction.PICKUP_HALF) {
+                            market.setPermissionToOpen(null);
+                            MarketPointAPI.inst().sendMessage(player, "&aYou've cleared permission to open for market "+market.getMarketId());
+                            player.closeInventory();
+                            Inventory marketEditorMain = MarketPointAPI.inst().getMarketGui(MarketPointAPI.LOADED_MARKETS.get(data.getMarketId()), data.getPage(), player, true);
+                            Bukkit.getScheduler().runTask(MarketPoint.getPlugin(), () -> {
+                                player.openInventory(marketEditorMain);
+                            });
+                        } else {
+                            e.setCancelled(true);
+                            ChatListener.CHAT_MAP.put(player.getUniqueId(), ChatAction.PERMISSION_CHANGE);
+                            player.closeInventory();
+                            MarketPointAPI.inst().sendMessage(player, "&aPlease write a permission that will be required to open market "+market.getMarketId()+":");
+                        }
+                    } else if(slot == CITIZENTS_ID && MarketPoint.isCitizentsLoaded()) {
                         e.setCancelled(true);
                         ChatListener.CHAT_MAP.put(player.getUniqueId(), ChatAction.CITIZENTS_ID);
                         player.closeInventory();
-                        MarketPointAPI.inst().sendMessage(player, "&aPlease write NPC id:");
+                        MarketPointAPI.inst().sendMessage(player, "&aPlease write NPC's id to add or to remove NPC's id from the list write &7del:ncpId &f):");
                     } else if(slot < e.getInventory().getSize()) {
                         e.setCancelled(true);
                     }
