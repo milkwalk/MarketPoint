@@ -2,6 +2,7 @@ package cz.dubcat.marketpoint.api;
 
 import java.util.Optional;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import com.cryptomorin.xseries.XMaterial;
@@ -30,25 +31,25 @@ public class ButtonProvider {
     public static ItemStack PERMISSIONS_BUTTON;
 
     public static void initializeButtons() {
-        CURRENCY_INFO = new ItemBuilder(getItemStackForMaterial("EMERALD"))
+        FileConfiguration cfg = MarketPoint.getPlugin().getConfig();
+        
+        CURRENCY_INFO = new ItemBuilder(getItemStackForMaterial(cfg.getString("guiMaterials.currencyInfo")))
                 .name(Translations.translate("lang.market.currencyInfo")).lore("placeholder").make();
-        MAIN_THEME_FILLER = new ItemBuilder(XMaterial.PURPLE_STAINED_GLASS_PANE.parseItem()).name(" ").make();
-        SECONDARY_THEME_FILLER = new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem()).name(" ").make();
-        PREVIOUS_PAGE_BUTTON = new ItemBuilder(XMaterial.PAPER.parseItem())
+        MAIN_THEME_FILLER = new ItemBuilder(getItemStackForMaterial(cfg.getString("guiMaterials.fillers.mainTheme"))).name(" ").make();
+        SECONDARY_THEME_FILLER = new ItemBuilder(getItemStackForMaterial(cfg.getString("guiMaterials.fillers.secondaryTheme"))).name(" ").make();
+        PREVIOUS_PAGE_BUTTON = new ItemBuilder(getItemStackForMaterial(cfg.getString("guiMaterials.previousPageButton")))
                 .name(Translations.translate("lang.market.previousPage")).make();
-        NEXT_PAGE_BUTTON = new ItemBuilder(XMaterial.PAPER.parseItem())
+        NEXT_PAGE_BUTTON = new ItemBuilder(getItemStackForMaterial(cfg.getString("guiMaterials.nextPageButton")))
                 .name(Translations.translate("lang.market.nextPage")).make();
         ENTER_EDITOR_MODE_BUTTON = new ItemBuilder(XMaterial.WRITABLE_BOOK.parseItem()).name("&aEnter editor mode")
                 .make();
         LEAVE_EDITOR_MODE_BUTTON = new ItemBuilder(XMaterial.WRITTEN_BOOK.parseItem()).name("&cLeave editor mode")
                 .make();
-        BACK_TO_MARKET_BUTTON = new ItemBuilder(XMaterial.ARROW.parseItem())
-                .name(Translations.translate("lang.market.backToMarket")).make();
-        BACK_TO_MARKET_BUTTON = new ItemBuilder(XMaterial.ARROW.parseItem())
+        BACK_TO_MARKET_BUTTON = new ItemBuilder(getItemStackForMaterial(cfg.getString("guiMaterials.backToMarketButton")))
                 .name(Translations.translate("lang.market.backToMarket")).make();
         DELETE_DEAL_BUTTON = new ItemBuilder(XMaterial.BARRIER.parseItem()).name("&cCancel deal")
-                .lore("&cRemoves deal completely!").make();
-        SUCCESS_THEME = new ItemBuilder(XMaterial.LIME_STAINED_GLASS_PANE.parseItem()).name(" ").make();
+                .lore("&cRemoves deal completely!").colorizeLore().make();
+        SUCCESS_THEME = new ItemBuilder(getItemStackForMaterial(cfg.getString("guiMaterials.fillers.successTheme"))).name(" ").make();
         CURRENCY_EDIT_BUTTON = new ItemBuilder(XMaterial.EMERALD.parseItem()).name("&aEdit currency")
                 .lore("Current value: &a%current_currency_value%").lore("&7Set to 0 to ignore this.").colorizeLore()
                 .make();
@@ -72,7 +73,7 @@ public class ButtonProvider {
             return currencyInfoMat.get().parseItem();
         }
 
-        MarketPoint.getLog().warning("Unknown material '" + materialName + "' name, please check you'r config, replacing it with STONE.");
+        MarketPoint.getLog().warning("Unknown material '" + materialName + "' name, please check your config, replacing it with STONE.");
 
         return XMaterial.STONE.parseItem();
     }
